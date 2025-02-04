@@ -8,6 +8,34 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
+from langchain.schema.output_parser import StrOutputParser
+
+# Load environment variables from .env
+load_dotenv()
+
+# Create a ChatOpenAI model
+model = ChatOpenAI(model="gpt-4o")
+
+
+
+def chat(user_query):
+    # Define prompt templates (no need for separate Runnable chains)
+    prompt_template = ChatPromptTemplate.from_messages(
+        [
+            ("system", "You are an assistant for question-answering tasks."),
+            ("human", "Answer the following question: {input}"),
+        ]
+    )
+
+    # Create the combined chain using LangChain Expression Language (LCEL)
+    chain = prompt_template | model | StrOutputParser()
+    # chain = prompt_template | model
+
+    # Run the chain
+    result = chain.invoke({"input": user_query})
+
+    return result
+
 # # Load environment variables from .env
 # load_dotenv()
 
