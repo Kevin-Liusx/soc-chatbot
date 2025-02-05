@@ -1,7 +1,10 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import requests
 import json
-import os
 import time
+import config
 from dotenv import load_dotenv
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -11,7 +14,10 @@ dotenv_path = os.path.join(current_dir, '../.env')
 load_dotenv(dotenv_path=dotenv_path)
 
 # DokuWiki JSON-RPC API endpoint
-URL = os.getenv("DOCHUB_URL")
+URL = config.DOCHUB_URL
+
+# Number of days to fetch recent changes from DokuWiki
+RECENT_CHANGE_DAYS = config.RECENT_CHANGE_DAYS
 
 # Your DokuWiki username and password
 AUTH = os.getenv("DOCHUB_AUTH_KEY")
@@ -114,11 +120,32 @@ def get_page_content(page_id):
         return None
 
 
-
 # JSON-RPC getRecentPageChanges request payload
-payload_getRecentPageChanges = {
-    "jsonrpc": "2.0",
-    "method": "core.getRecentPageChanges",
-    "params": ["", 1],
-    "id": 1
-}
+def getRecentPageChanges():
+    """Fetches recent page changes from DokuWiki within the last RECENT_CHANGE_DAYS."""
+    current_time = int(time.time())
+    print(RECENT_CHANGE_DAYS)
+    past_time = current_time - (RECENT_CHANGE_DAYS * 24 * 60 * 60)
+    print(past_time)
+    payload_getRecentPageChanges = {
+        "jsonrpc": "2.0",
+        "method": "core.getRecentPageChanges",
+        "params": [past_time],
+        "id": 1
+    }
+
+    response = requests.post(
+        URL,
+        headers=headers,
+        data=json.dumps(payload_getRecentPageChanges)
+    )
+    
+    if response.status_code == 200:
+        changes = response.json().get("result", [])
+        output_file = os.path.join(current_dir, "data", "recent_changes.json")
+        with open(output_file, "w", encoding="utf-8") as file:
+            json.dump(changes, file, indent=4)
+        return changes
+    else:
+        print(f"❌ Error {response.status_code}: {response.text}")
+        return None
