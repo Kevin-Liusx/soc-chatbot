@@ -17,7 +17,10 @@ def initialize_documents():
     save_last_check_time()
     with open(current_dir + "/data/page_list.json", "r") as file:
         page_list = json.load(file)
-
-    for page in page_list:
+        
+    for page in page_list["result"]:
         page_id = page["id"]
         get_page_content(page_id)
+
+if __name__ == "__main__":
+    initialize_documents()
