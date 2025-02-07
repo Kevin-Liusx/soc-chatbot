@@ -52,6 +52,7 @@ def list_pages(depth=1000000000):
     )
 
     if response.status_code == 200:
+        print(f"✅ Starting to fetch all page names from DokuWiki")
         data = response.json()
 
         # Format the JSON output for readability

@@ -18,9 +18,11 @@ def initialize_documents():
     with open(current_dir + "/data/page_list.json", "r") as file:
         page_list = json.load(file)
         
+    print(f"✅ Starting to fetch content for all the pages")
     for page in page_list["result"]:
         page_id = page["id"]
         get_page_content(page_id)
+    print(f"✅ Page contents saved in 'data' directory")
 
 if __name__ == "__main__":
     initialize_documents()
