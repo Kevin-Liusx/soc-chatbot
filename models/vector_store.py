@@ -46,7 +46,7 @@ def initialize_vector_store():
         # Create the OpenAI embeddings
         print("\n --- Initializing Chroma vector store ---")
         embeddings = OpenAIEmbeddings(
-            model_name="text-embedding-3-small",
+            model="text-embedding-3-small",
         )
         print("\n ---Finished initializing OpenAI embeddings ---")
 

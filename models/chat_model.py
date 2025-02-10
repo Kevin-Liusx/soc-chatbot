@@ -89,10 +89,10 @@ question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
 # Create a retrieval chain that combines the history-aware retriever and the question answering chain
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
+chat_history = []  # Collect chat history here (a sequence of messages)
 
 # Function to simulate a continual chat
 def chat(user_query):
-    chat_history = []  # Collect chat history here (a sequence of messages)
     # Process the user's query through the retrieval chain
     result = rag_chain.invoke({"input": user_query, "chat_history": chat_history})
     # Display the AI's response
@@ -100,4 +100,6 @@ def chat(user_query):
     # Update the chat history
     chat_history.append(HumanMessage(content=user_query))
     chat_history.append(SystemMessage(content=result["answer"]))
+    print(f"Chat history: {chat_history}")  
+    return result["answer"]
         
