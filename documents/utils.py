@@ -21,10 +21,10 @@ def save_last_check_time():
         json.dump({"last_check": current_time}, file)
 
 
-def convert_dokuwiki_syntax_to_markdown(raw_text, output_path):
+def convert_dokuwiki_syntax_to_markdown(raw_text, source_note, output_path):
     """Converts DokuWiki syntax to Markdown and saves it to a file."""
     markdown_text = pypandoc.convert_text(raw_text.encode("utf-8"), "markdown", format="dokuwiki")
-
+    markdown_text += source_note
     # Ensure the directory exists
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
