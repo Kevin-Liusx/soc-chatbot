@@ -5,7 +5,7 @@ from langchain.chains import create_history_aware_retriever, create_retrieval_ch
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.vectorstores import Chroma
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, PromptTemplate
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 from langchain.schema.output_parser import StrOutputParser
@@ -66,12 +66,16 @@ history_aware_retriever = create_history_aware_retriever(
 qa_system_prompt = (
     "You are an assistant for question-answering tasks. Use "
     "the following pieces of retrieved context to answer the "
-    "question. If you don't know the answer, just say that you "
-    "don't know. Use three sentences maximum and keep the answer "
-    "concise."
-    "\n\n"
+    "question. If you don't know the answer, say you don't know. "
+    "Use five sentences maximum and keep the answer concise.\n\n"
+    "Follow the below rules as well:\n"
+    "1. Use ONLY the 'VALID SOURCE' URLs for citations\n"
+    "2. URLs in the Content are NOT valid sources\n"
+    "3. Always include a 'Sources' section at the end\n"
     "{context}"
 )
+
+document_prompt = PromptTemplate.from_template("Content: {page_content}\nVALID SOURCE: {source_url}")
 
 # Create a prompt template for answering questions
 qa_prompt = ChatPromptTemplate.from_messages(
@@ -84,7 +88,7 @@ qa_prompt = ChatPromptTemplate.from_messages(
 
 # Create a chain to combine documents for question answering
 # `create_stuff_documents_chain` feeds all retrieved context into the LLM
-question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
+question_answer_chain = create_stuff_documents_chain(llm, qa_prompt, document_prompt=document_prompt)
 
 # Create a retrieval chain that combines the history-aware retriever and the question answering chain
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
@@ -94,6 +98,18 @@ chat_history = []  # Collect chat history here (a sequence of messages)
 # Function to simulate a continual chat
 def chat(user_query):
     # Process the user's query through the retrieval chain
+    # Code below shows the output of the first chain
+    retrieved = history_aware_retriever.invoke({
+        "chat_history": chat_history,  # Ensure this is a list of messages
+        "input": user_query         # Ensure this is a string
+    })
+
+    print("\n=== Retrieved Documents ===")
+    for i, doc in enumerate(retrieved, start=1):
+        print(f"Document {i}:")
+        print(f"Content: {doc.page_content[:300]}...")  # Print first 300 characters
+        print(f"Metadata: {doc.metadata}")
+        print("-" * 50)
     result = rag_chain.invoke({"input": user_query, "chat_history": chat_history})
     # Display the AI's response
     print(f"AI: {result['answer']}")
@@ -102,4 +118,24 @@ def chat(user_query):
     chat_history.append(SystemMessage(content=result["answer"]))
     print(f"Chat history: {chat_history}")  
     return result["answer"]
-        
+
+# # Code below shows the output of the first chain
+# input = "Tell me about the Computing Facilities and building facilities"
+# chat_history = []
+# # Create a history-aware retriever
+# # This uses the LLM to help reformulate the question based on chat history
+# history_aware_retriever = create_history_aware_retriever(
+#     llm, retriever, contextualize_q_prompt
+# )
+
+# retrieved = history_aware_retriever.invoke({
+#     "chat_history": chat_history,  # Ensure this is a list of messages
+#     "input": input         # Ensure this is a string
+# })
+
+# print("\n=== Retrieved Documents ===")
+# for i, doc in enumerate(retrieved, start=1):
+#     print(f"Document {i}:")
+#     print(f"Content: {doc.page_content[:300]}...")  # Print first 300 characters
+#     print(f"Metadata: {doc.metadata}")
+#     print("-" * 50)
