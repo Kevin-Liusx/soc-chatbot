@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.vectorstores import Chroma
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, PromptTemplate
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
@@ -93,10 +93,10 @@ question_answer_chain = create_stuff_documents_chain(llm, qa_prompt, document_pr
 # Create a retrieval chain that combines the history-aware retriever and the question answering chain
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
-chat_history = []  # Collect chat history here (a sequence of messages)
+# chat_history = []  # Collect chat history here (a sequence of messages)
 
 # Function to simulate a continual chat
-def chat(user_query):
+def chat(user_query, chat_history):
     # Process the user's query through the retrieval chain
     # Code below shows the output of the first chain
     retrieved = history_aware_retriever.invoke({
@@ -114,8 +114,6 @@ def chat(user_query):
     # Display the AI's response
     print(f"AI: {result['answer']}")
     # Update the chat history
-    chat_history.append(HumanMessage(content=user_query))
-    chat_history.append(SystemMessage(content=result["answer"]))
     print(f"Chat history: {chat_history}")  
     return result["answer"]
 
