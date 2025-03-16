@@ -1,1 +1,1 @@
-from dochub_loader import initialize_documents
+from .dochub_loader import initialize_documents

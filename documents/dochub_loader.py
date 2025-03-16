@@ -1,5 +1,5 @@
 import json
-import dochub_api
+from documents import dochub_api
 from documents.utils import save_last_check_time
 import os
 

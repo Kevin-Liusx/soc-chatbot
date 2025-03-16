@@ -1,6 +1,6 @@
 import os
 
-from utils import extract_metadata
+from .utils import extract_metadata
 
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader

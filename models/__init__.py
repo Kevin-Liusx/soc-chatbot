@@ -1,1 +1,1 @@
-from vector_store import initialize_vector_store
+from .vector_store import initialize_vector_store
