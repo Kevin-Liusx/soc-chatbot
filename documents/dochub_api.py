@@ -60,6 +60,7 @@ def list_pages(depth=1000000000):
 
         # Save the output to a file
         output_file = os.path.join(current_dir, "data", "page_list.json")
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, "w", encoding="utf-8") as file:
             file.write(formatted_data)
 
