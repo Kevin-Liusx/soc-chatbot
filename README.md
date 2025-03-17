@@ -22,7 +22,7 @@ poetry install --no-root
 Rename your environment file and update it with your configuration values:
 
 ```bash
-mv .env.example .env
+touch .env
 ```
 
 Edit the `.env` file to configure your environment variables:
