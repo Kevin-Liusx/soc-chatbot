@@ -10,6 +10,25 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 from langchain.schema.output_parser import StrOutputParser
 
+from documents import initialize_documents
+from models import initialize_vector_store
+import logging
+
+
+logging.basicConfig(level=logging.INFO)
+
+def startup_routine():
+    logging.info("Application startup: initializing resources...")
+    try:
+        initialize_documents()
+        initialize_vector_store()
+        logging.info("Startup initialization completed successfully.")
+    except Exception as e:
+        logging.error(f"Initialization error: {e}")
+        raise
+
+startup_routine()
+
 # Load environment variables from .env
 load_dotenv()
 
