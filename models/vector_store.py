@@ -56,7 +56,7 @@ def initialize_vector_store():
             documents, embeddings, persist_directory=persistent_directory)
         print("\n--- Finished creating Chroma vector store ---")
     else:
-        print("Vector store already exists. No need to initialize.")
+        print("✅ Vector store already exists. No need to initialize.")
 
 
 if __name__ == "__main__":
