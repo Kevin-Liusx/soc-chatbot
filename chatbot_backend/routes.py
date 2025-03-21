@@ -1,13 +1,20 @@
+# import os
 from flask import request, jsonify
 from chatbot_backend import app
 from models import chat_model
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+
+# CHATBOT_API_KEY = os.getenv('CHATBOT_API_KEY')
 
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.json
     user_message = data.get('message')
     chat_history = data.get("chatHistory", [])
+    # api_key = request.headers.get('X-API-KEY')
+
+    # if api_key != CHATBOT_API_KEY:
+    #     return jsonify({'error': 'Unauthorized access'}), 403
 
     chat_history_langchain_format = []
     for msg in chat_history:
