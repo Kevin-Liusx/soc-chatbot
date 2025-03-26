@@ -1,6 +1,8 @@
 import os
+import time
+import uuid
 from flask import request, jsonify
-from chatbot_backend import app
+from chatbot_backend import app, utils
 from models import chat_model
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
@@ -8,9 +10,13 @@ CHATBOT_API_KEY = os.getenv('CHATBOT_API_KEY')
 
 @app.route('/chat', methods=['POST'])
 def chat():
+    start_time = time.time()
+
     data = request.json
     user_message = data.get('message')
     chat_history = data.get("chatHistory", [])
+    # Get session ID from frontend or generate new
+    session_id = data.get('sessionId', 'session_' + str(uuid.uuid4())[:8])
     api_key = request.headers.get('CHATBOT-API-KEY')
 
     if api_key != CHATBOT_API_KEY:
@@ -26,5 +32,12 @@ def chat():
             chat_history_langchain_format.append(AIMessage(content=msg['content']))
     # Get a response from the chat model
     response = chat_model.chat(user_message, chat_history_langchain_format)
+
+    # Calculate response time
+    end_time = time.time()
+    processing_time = end_time - start_time
+
+    # Log chat interaction
+    utils.log_chat(session_id=session_id, user_message=user_message, bot_response=response, response_time=processing_time)
 
     return jsonify({'response': response})
