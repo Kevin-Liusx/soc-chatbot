@@ -31,6 +31,8 @@ Edit the `.env` file to configure your environment variables:
 
 - **OPENAI_API_KEY**: Your OpenAI API key, which allows your chatbot to interact with OpenAI services.
 
+- **CHATBOT_API_KEY**: SOC chatbot api key, make sure to add this key to the frontend as well.
+
 #### 2. Activate the Poetry Virtual Environment
 
 Activate the Poetry-managed Python environment:
