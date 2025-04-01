@@ -14,7 +14,8 @@ def initialize_documents():
     It fetches the list of pages and saves it to a file.
     """
     if not os.path.exists(data_dir):
-        print(f"❌ 'data' directory not found. Creating 'data' directory")
+        print(f"✅ 'data' directory not found. Creating 'data' directory")
+        os.makedirs(data_dir, exist_ok=True)
         list_pages()
         save_last_check_time()
         with open(current_dir + "/data/page_list.json", "r") as file:
