@@ -7,6 +7,7 @@ current_dir = dochub_api.current_dir
 data_dir = os.path.join(current_dir, "data")
 get_page_content = dochub_api.get_page_content
 list_pages = dochub_api.list_pages
+login = dochub_api.login
 
 def initialize_documents():
     """Initializes the documents directory.
@@ -16,6 +17,7 @@ def initialize_documents():
     if not os.path.exists(data_dir):
         print(f"✅ 'data' directory not found. Creating 'data' directory")
         os.makedirs(data_dir, exist_ok=True)
+        login()
         list_pages()
         save_last_check_time()
         with open(current_dir + "/data/page_list.json", "r") as file:

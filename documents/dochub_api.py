@@ -32,11 +32,41 @@ LAST_CHECK_FILE = "last_check.txt"
 # Headers for the request
 headers = {
     "Content-Type": "application/json",
-    "Authorization": f"Basic {AUTH}"
 }
 
+# Dochub Session
+session = requests.Session()
+
+# JSON-RPC login request payload
+def login():
+    """Logs in to DokuWiki and retrieves the session token."""
+    payload = {
+        "params": {
+            "user": os.getenv("DOCHUB_USERNAME"),
+            "pass": os.getenv("DOCHUB_PASSWORD"),
+        },
+        "method": "core.login",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+
+    response = session.post(
+        API_URL,
+        headers=headers,
+        data=json.dumps(payload)
+    )
+
+    result = response.json()
+
+    if 'error' in result:
+        raise RuntimeError(f"Login failed: {result['error']['message']}")
+
+    print("✅ Dochub logged in successfully.")
+    return session
+
+
 # JSON-RPC listPages request payload
-def list_pages(depth=1000000000):
+def list_pages(depth=0):
     """Lists all available pages in DokuWiki."""
     payload = {
         "jsonrpc": "2.0",
@@ -45,7 +75,7 @@ def list_pages(depth=1000000000):
         "id": 1
     }
 
-    response = requests.post(
+    response = session.post(
         API_URL,
         headers=headers,
         data=json.dumps(payload)
@@ -111,7 +141,7 @@ def get_page_content(page_id):
         "id": 1
     }
 
-    response = requests.post(
+    response = session.post(
         API_URL,
         headers=headers,
         data=json.dumps(payload)
@@ -148,7 +178,7 @@ def getRecentPageChanges():
         "id": 1
     }
 
-    response = requests.post(
+    response = session.post(
         API_URL,
         headers=headers,
         data=json.dumps(payload_getRecentPageChanges)
@@ -165,4 +195,5 @@ def getRecentPageChanges():
         return None
 
 if __name__ == "__main__":
+    login()
     list_pages()
