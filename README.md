@@ -31,7 +31,9 @@ touch .env
 
 Edit the `.env` file to configure your environment variables:
 
-- **DOCHUB_AUTH_KEY**: Your personal authentication key used to access and retrieve content from DocHub.
+- **DOCHUB_USERNAME**: The username for your DocHub account. This is typically the email address or username you use to log in to DocHub.
+
+- **DOCHUB_PASSWORD**: The password for your DocHub account. Ensure this is kept secure and not shared publicly.
 
 - **OPENAI_API_KEY**: Your OpenAI API key, which allows your chatbot to interact with OpenAI services.
 
