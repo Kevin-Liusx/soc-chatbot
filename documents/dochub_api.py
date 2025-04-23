@@ -158,7 +158,7 @@ def get_page_content(page_id):
         utils.convert_dokuwiki_syntax_to_markdown(content, source_note, output_file_md)
         with open(output_file, "w", encoding="utf-8") as file:
             json.dump({"page_id": page_id, "content": content}, file, indent=4)
-        return content
+        return content, output_file_md
     else:
         print(f"❌ Error {response.status_code}: {response.text}")
         return None
@@ -168,7 +168,6 @@ def get_page_content(page_id):
 def getRecentPageChanges():
     """Fetches recent page changes from DokuWiki within the last RECENT_CHANGE_DAYS."""
     current_time = int(time.time())
-    print(RECENT_CHANGE_DAYS)
     past_time = current_time - (RECENT_CHANGE_DAYS * 24 * 60 * 60)
     print(past_time)
     payload_getRecentPageChanges = {
@@ -196,4 +195,4 @@ def getRecentPageChanges():
 
 if __name__ == "__main__":
     login()
-    list_pages()
+    getRecentPageChanges()
