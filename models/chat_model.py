@@ -87,13 +87,13 @@ qa_system_prompt = (
     "If the retrieved context is empty or irrelevant to the query, follow these rules:\n"
     "- If the query is a general greeting (e.g., 'hi', 'hello'), respond politely.\n"
     "- If the user asks about your capabilities, briefly explain your role.\n"
-    "- If the query is unrelated to the context, respond with: 'I can only provide information based on the available database content.'\n"
+    "- If the query is unrelated to the context, respond with: 'My knowledge is limited to the content within the SoC Dochub. If you can't find what you need, please submit a service request through https://rt.comp.nus.edu.sg, and our technical team will assist you.'\n"
     "- If the user asks an open-ended or vague question, ask them to clarify.\n\n"
 
     "### Rules to Follow:\n"
     "1. Answer **ONLY** using the retrieved context when available.\n"
     "2. Do NOT use any external knowledge or assumptions.\n"
-    "3. Keep responses concise (maximum of five sentences).\n"
+    "3. Keep responses concise (maximum of two sentences).\n"
     "4. Use ONLY 'VALID SOURCE' URLs for citations.\n"
     "5. URLs mentioned within the retrieved content are NOT valid sources.\n"
     "6. Always include a 'Sources' section at the end if applicable.\n\n"
@@ -130,18 +130,26 @@ def chat(user_query, chat_history):
         "chat_history": chat_history,  # Ensure this is a list of messages
         "input": user_query         # Ensure this is a string
     })
-
+    print("\n\n" + "="*80)
+    print("🚀 NEW QUERY START 🚀")
+    print("="*80)
     print("\n=== Retrieved Documents ===")
     for i, doc in enumerate(retrieved, start=1):
         print(f"Document {i}:")
-        print(f"Content: {doc.page_content[:300]}...")  # Print first 300 characters
+        print(f"Content: {doc.page_content[:100]}...")  # Print first 300 characters
         print(f"Metadata: {doc.metadata}")
         print("-" * 50)
+    print("\n=== Retrieved Documents ===\n\n")
     result = rag_chain.invoke({"input": user_query, "chat_history": chat_history})
+    # Display the user's query
+    print(f"\n\n❗️User: {user_query}")
     # Display the AI's response
-    print(f"AI: {result['answer']}")
+    print(f"\n\n❗️AI: {result['answer']}")
     # Update the chat history
-    print(f"Chat history: {chat_history}")  
+    print(f"\n\n❗️Chat history: {chat_history}")
+    print("\n" + "="*80)
+    print("✅ QUERY END ✅")
+    print("="*80 + "\n\n")
     return result["answer"]
 
 # # Code below shows the output of the first chain

@@ -68,35 +68,45 @@ def login():
 # JSON-RPC listPages request payload
 def list_pages(depth=0):
     """Lists all available pages in DokuWiki."""
-    payload = {
-        "jsonrpc": "2.0",
-        "method": "core.listPages",
-        "params": ["", depth],
-        "id": 1
-    }
+    directories = ["cf", "buildfac", "safety"]
 
-    response = session.post(
-        API_URL,
-        headers=headers,
-        data=json.dumps(payload)
-    )
+    combined_results = None
 
-    if response.status_code == 200:
-        print(f"✅ Starting to fetch all page names from DokuWiki")
-        data = response.json()
+    for idx, dir in enumerate(directories):
+        payload = {
+            "jsonrpc": "2.0",
+            "method": "core.listPages",
+            "params": [dir, depth],
+            "id": idx + 1
+        }
 
+        response = session.post(
+            API_URL,
+            headers=headers,
+            data=json.dumps(payload)
+        )
+
+        if response.status_code == 200:
+            print(f"✅ Fetching pages from directory '{dir}'")
+            data = response.json()
+
+            if combined_results is None:
+                combined_results = data
+            else:
+                if "result" in data:
+                    combined_results["result"].extend(data["result"])
+        else:
+            print(f"❌ Error {response.status_code}: {response.text}")
+
+    if combined_results:
         # Format the JSON output for readability
-        formatted_data = json.dumps(data, indent=4)
-
+        formatted_data = json.dumps(combined_results, indent=4)
         # Save the output to a file
-        output_file = os.path.join(current_dir, "data", "page_list.json")
+        output_file = os.path.join(current_dir, "data", "page_list1.json")
         with open(output_file, "w", encoding="utf-8") as file:
             file.write(formatted_data)
 
         print(f"✅ Response saved and formatted in '{output_file}'")
-
-    else:
-        print(f"❌ Error {response.status_code}: {response.text}")
 
 
 # JSON-RPC getPage request payload
@@ -195,4 +205,4 @@ def getRecentPageChanges():
 
 if __name__ == "__main__":
     login()
-    getRecentPageChanges()
+    list_pages()

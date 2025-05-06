@@ -3,3 +3,4 @@ poetry.lock
 __pycache__
 documents/data
 models/db
+testing
