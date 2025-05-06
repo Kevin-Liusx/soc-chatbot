@@ -102,7 +102,7 @@ def list_pages(depth=0):
         # Format the JSON output for readability
         formatted_data = json.dumps(combined_results, indent=4)
         # Save the output to a file
-        output_file = os.path.join(current_dir, "data", "page_list1.json")
+        output_file = os.path.join(current_dir, "data", "page_list.json")
         with open(output_file, "w", encoding="utf-8") as file:
             file.write(formatted_data)
 
