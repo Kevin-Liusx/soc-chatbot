@@ -27,7 +27,6 @@ def initialize_vector_store():
         for root, _, files in os.walk(document_path):
             for file in files:
                 if file.endswith(".md"):
-                    print(os.path.join(root, file))
                     loader = TextLoader(os.path.join(root, file))
                     dochub_docs = loader.load()
                     for doc in dochub_docs:

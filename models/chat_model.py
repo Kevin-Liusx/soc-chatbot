@@ -93,12 +93,13 @@ qa_system_prompt = (
     "### Rules to Follow:\n"
     "1. Answer **ONLY** using the retrieved context when available.\n"
     "2. Do NOT use any external knowledge or assumptions.\n"
-    "3. Keep responses concise (maximum of two sentences).\n"
+    "3. Keep responses concise (maximum of five sentences).\n"
     "4. Use ONLY 'VALID SOURCE' URLs for citations.\n"
     "5. URLs mentioned within the retrieved content are NOT valid sources.\n"
     "6. Always include a 'Sources' section at the end if applicable.\n\n"
-
+    "7. When citing a source, use the format `[link description](link)` instead of raw URLs. For example, use `[Cleaner Temp Cards](https://dochub-dev.comp.nus.edu.sg/buildfac%3Afacilities%3Acleaner_temp_cards)`.\n\n"
     "**Retrieved Context:**\n"
+    
     "{context}"
 )
 

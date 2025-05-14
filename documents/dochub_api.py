@@ -100,6 +100,7 @@ def list_pages(depth=0):
 
     if combined_results:
         # Format the JSON output for readability
+        combined_results["result"].extend([{"id": "start"}])
         formatted_data = json.dumps(combined_results, indent=4)
         # Save the output to a file
         output_file = os.path.join(current_dir, "data", "page_list.json")
