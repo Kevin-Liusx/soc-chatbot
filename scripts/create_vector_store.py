@@ -2,12 +2,11 @@ import os
 import shutil
 import sys
 
-# Get the path to the parent directory (your_project)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-import vector_store
+from chat_engine import vector_store
 import documents
 
 def regenerate_vector_store():
@@ -20,14 +19,13 @@ def regenerate_vector_store():
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     documents_dir = os.path.abspath(os.path.join(current_dir, "../documents/data"))
-    vectorstore_dir = os.path.join(current_dir, "db")
+    vectorstore_dir = os.path.abspath(os.path.join(current_dir, "../chat_engine/db"))
 
     # Step 1: Delete existing documents and vector store
     for path in [documents_dir, vectorstore_dir]:
         if os.path.exists(path):
             print(f"❗️ Deleting {path} ...")
             shutil.rmtree(path)
-            os.makedirs(path, exist_ok=True)
             print(f"✅ Cleared: {path}")
 
     # Step 2: Fetch latest DocHub documents (custom sync logic)
@@ -39,3 +37,6 @@ def regenerate_vector_store():
     print("Rebuilding vector store ...")
     vector_store.initialize_vector_store()
     print("✅ Vector store regenerated successfully.")
+
+if __name__ == "__main__":
+    regenerate_vector_store()

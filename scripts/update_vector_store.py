@@ -13,7 +13,7 @@ sys.path.insert(0, parent_dir)
 
 # Now you can import from document
 from documents import dochub_sync
-import utils
+from chat_engine import utils
 
 
 def update_vector_store():

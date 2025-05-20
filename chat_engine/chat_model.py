@@ -11,7 +11,7 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.schema.output_parser import StrOutputParser
 
 from documents import initialize_documents
-from models import initialize_vector_store
+from chat_engine import initialize_vector_store
 import logging
 
 

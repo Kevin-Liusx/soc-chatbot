@@ -5,3 +5,6 @@ documents/data
 models/db
 testing
 logs
+documents/nus_computing
+chat_engine/db
+chat_engine/db_nus_computing

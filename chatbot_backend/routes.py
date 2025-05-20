@@ -3,7 +3,7 @@ import time
 import uuid
 from flask import request, jsonify
 from chatbot_backend import app, utils
-from models import chat_model
+from chat_engine import chat_model
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
 CHATBOT_API_KEY = os.getenv('CHATBOT_API_KEY')
