@@ -124,7 +124,7 @@ rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chai
 # chat_history = []  # Collect chat history here (a sequence of messages)
 
 # Function to simulate a continual chat
-def chat(user_query, chat_history):
+def chat(user_query, chat_history, is_techstaff):
     # Process the user's query through the retrieval chain
     # Code below shows the output of the first chain
     retrieved = history_aware_retriever.invoke({

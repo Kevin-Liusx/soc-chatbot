@@ -5,19 +5,21 @@ import pypandoc
 
 LAST_CHECK_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/last_check.json")
 
-def get_last_check_time():
+def get_last_check_time(file_save_path):
     """Returns the last timestamp when the recent changes were checked."""
-    if os.path.exists(LAST_CHECK_FILE):
-        with open(LAST_CHECK_FILE, "r") as file:
+    file_save_path = os.path.join(file_save_path, "/last_check.json")
+    if os.path.exists(file_save_path):
+        with open(file_save_path, "r") as file:
             data = json.load(file)
             return data["timestamp"]
     return None
 
 
-def save_last_check_time():
+def save_last_check_time(file_save_path):
     """Updates the last check timestamp with the current time."""
+    file_save_path = os.path.join(file_save_path, "/last_check.json")
     current_time = int(time.time())
-    with open(LAST_CHECK_FILE, "w") as file:
+    with open(file_save_path, "w") as file:
         json.dump({"last_check": current_time}, file)
 
 

@@ -66,7 +66,7 @@ def login():
 
 
 # JSON-RPC listPages request payload
-def list_pages(depth=0):
+def list_pages(file_save_location, depth=0):
     """Lists all available pages in DokuWiki."""
     directories = ["cf", "buildfac", "safety"]
 
@@ -103,7 +103,7 @@ def list_pages(depth=0):
         combined_results["result"].extend([{"id": "start"}])
         formatted_data = json.dumps(combined_results, indent=4)
         # Save the output to a file
-        output_file = os.path.join(current_dir, "data", "page_list.json")
+        output_file = os.path.join(file_save_location, "page_list.json")
         with open(output_file, "w", encoding="utf-8") as file:
             file.write(formatted_data)
 
