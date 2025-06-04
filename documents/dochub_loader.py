@@ -25,9 +25,9 @@ def initialize_documents(data_dir, USERNAME, PASSWORD):
         for page in page_list["result"]:
             page_id = page["id"]
             get_page_content(data_dir, page_id)
-        print(f"✅ Page contents saved in 'data' directory")
+        print(f"✅ Page contents saved in {data_dir} directory")
     else:
-        print(f"✅ 'data' directory found. Skipping data initialization.")
+        print(f"✅ {data_dir} directory found. Skipping data initialization.")
 
 if __name__ == "__main__":
     initialize_documents()
