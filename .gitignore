@@ -1,7 +1,8 @@
 poetry.lock
 .env
 __pycache__
-documents/data
+documents/general_data
+documents/techstaff_data
 models/db
 testing
 logs

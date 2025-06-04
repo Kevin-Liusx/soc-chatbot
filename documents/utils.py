@@ -15,9 +15,9 @@ def get_last_check_time(file_save_path):
     return None
 
 
-def save_last_check_time(file_save_path):
+def save_last_check_time(dir_save_path):
     """Updates the last check timestamp with the current time."""
-    file_save_path = os.path.join(file_save_path, "/last_check.json")
+    file_save_path = os.path.join(dir_save_path, "last_check.json")
     current_time = int(time.time())
     with open(file_save_path, "w") as file:
         json.dump({"last_check": current_time}, file)

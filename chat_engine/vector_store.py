@@ -9,11 +9,11 @@ from langchain_openai import OpenAIEmbeddings
 
 
 # Define the directory containing the text file and persistent directory
-current_dir = os.path.dirname(os.path.abspath(__file__))
-document_path = os.path.abspath("documents/data/dochub_md")
-persistent_directory = os.path.join(current_dir, "db", "chroma_db_with_metadata")
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# document_path = os.path.abspath("documents/data/dochub_md")
+# persistent_directory = os.path.join(current_dir, "db", "chroma_db_with_metadata")
 
-def initialize_vector_store():
+def initialize_vector_store(document_path, persistent_directory):
     # Check if the Chroma vector store already exists
     if not os.path.exists(persistent_directory):
         print("Persistent directory does not exist. Initializing vector store...")

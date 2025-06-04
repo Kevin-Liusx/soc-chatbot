@@ -38,12 +38,12 @@ headers = {
 session = requests.Session()
 
 # JSON-RPC login request payload
-def login():
+def login(USERNAME, PASSWORD):
     """Logs in to DokuWiki and retrieves the session token."""
     payload = {
         "params": {
-            "user": os.getenv("DOCHUB_USERNAME"),
-            "pass": os.getenv("DOCHUB_PASSWORD"),
+            "user": USERNAME,
+            "pass": PASSWORD,
         },
         "method": "core.login",
         "id": 1,
@@ -118,14 +118,14 @@ If it is a directory, it will be represented as "namespace:start".
 If it is a file, it will be represented as "namespace:file".
 Where namespace could be several levels of directories.
 """
-def get_page_content(page_id):
+def get_page_content(file_save_path, page_id):
     """Retrieves the content of a specific wiki page."""
     if "sidebar" in page_id.lower():
         print(f"🚫 Skipping sidebar page: {page_id}")
         return
     
-    data_dir = os.path.join(current_dir, "data", "dochub_raw")
-    data_dir_md = os.path.join(current_dir, "data", "dochub_md")
+    data_dir = os.path.join(file_save_path, "dochub_raw")
+    data_dir_md = os.path.join(file_save_path, "dochub_md")
     path_parts = page_id.split(":")
     last_path_part = path_parts[-1]
 
