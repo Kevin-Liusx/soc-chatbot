@@ -21,8 +21,18 @@ def chat():
     api_key = request.headers.get('CHATBOT-API-KEY')
     is_techstaff = request.headers.get('IS-TECHSTAFF', 'false') == 'true'
 
+    reason = utils.detect_suspicious_pattern(user_message)
+
     if api_key != CHATBOT_API_KEY:
         return jsonify({'error': 'Unauthorized access'}), 403
+    
+    if reason:
+        return jsonify({'response': f'Your input contains suspicious patterns: {reason}. Please revise your message.'})
+
+    if not utils.is_safe_input(user_message):
+        return jsonify({'response': 'Your input contains unsupported characters. Please use only standard letters, numbers, and basic punctuation.'})
+
+    user_message = utils.sanitize_input(user_message)
 
     chat_history_langchain_format = []
     for msg in chat_history:
