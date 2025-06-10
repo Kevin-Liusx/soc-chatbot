@@ -68,8 +68,8 @@ def login(USERNAME, PASSWORD):
 # JSON-RPC listPages request payload
 def list_pages(file_save_location, depth=0):
     """Lists all available pages in DokuWiki."""
-    directories = ["cf", "buildfac", "safety"]
-
+    directories = ["cf", "buildfac", "safety", "infra", "tech"]
+    
     combined_results = None
 
     for idx, dir in enumerate(directories):
@@ -123,7 +123,7 @@ def get_page_content(file_save_path, page_id):
     if "sidebar" in page_id.lower():
         print(f"🚫 Skipping sidebar page: {page_id}")
         return
-    
+    print(f"✅ Fetching content for page: {page_id}")
     data_dir = os.path.join(file_save_path, "dochub_raw")
     data_dir_md = os.path.join(file_save_path, "dochub_md")
     path_parts = page_id.split(":")

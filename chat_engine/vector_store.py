@@ -1,6 +1,6 @@
 import os
 
-from .utils import extract_metadata
+from .utils import extract_metadata, batch_documents_by_tokens
 
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
@@ -13,7 +13,7 @@ from langchain_openai import OpenAIEmbeddings
 # document_path = os.path.abspath("documents/data/dochub_md")
 # persistent_directory = os.path.join(current_dir, "db", "chroma_db_with_metadata")
 
-def initialize_vector_store(document_path, persistent_directory):
+def initialize_vector_store(document_path, persistent_directory, batch_size=1000):
     # Check if the Chroma vector store already exists
     if not os.path.exists(persistent_directory):
         print("Persistent directory does not exist. Initializing vector store...")
@@ -43,6 +43,11 @@ def initialize_vector_store(document_path, persistent_directory):
         print("\n--- Document Chunks Information ---")
         print(f"Number of document chunks: {len(documents)}")
 
+        # Token-based batching
+        print("\n--- Batching documents by token count ---")
+        batches = batch_documents_by_tokens(documents)
+        print(f"Total batches: {len(batches)}")
+
         # Create the OpenAI embeddings
         print("\n --- Initializing Chroma vector store ---")
         embeddings = OpenAIEmbeddings(
@@ -52,8 +57,15 @@ def initialize_vector_store(document_path, persistent_directory):
 
         # Create the Chroma vector store
         print("\n--- Creating Chroma vector store ---")
-        db = Chroma.from_documents(
-            documents, embeddings, persist_directory=persistent_directory)
+        db = None
+        for i, batch in enumerate(batches):
+            if i == 0:
+                db = Chroma.from_documents(batch, embeddings, persist_directory=persistent_directory)
+                print(f"Batch {i + 1}: Created vector store with {len(batch)} chunks.")
+            else:
+                db.add_documents(batch)
+                print(f"Batch {i + 1}: Added {len(batch)} chunks.")
+                
         print("\n--- Finished creating Chroma vector store ---")
     else:
         print("✅ Vector store already exists. No need to initialize.")

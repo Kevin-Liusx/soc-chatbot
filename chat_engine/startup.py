@@ -16,7 +16,7 @@ def startup_routine():
         initialize_documents(techstaff_data_dir, os.getenv("DOCHUB_USERNAME_STAFF"), os.getenv("DOCHUB_PASSWORD_STAFF"))
 
         initialize_vector_store(general_data_dir, GENERAL_DB_DIR)
-        initialize_vector_store(techstaff_data_dir, TECHSTAFF_DB_DIR)
+        # initialize_vector_store(techstaff_data_dir, TECHSTAFF_DB_DIR)
         logging.info("Startup initialization completed successfully.")
     except Exception as e:
         logging.error(f"Initialization error: {e}")
