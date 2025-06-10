@@ -66,13 +66,12 @@ def login(USERNAME, PASSWORD):
 
 
 # JSON-RPC listPages request payload
-def list_pages(file_save_location, depth=0):
+def list_pages(file_save_location, directories_to_include, depth=0):
     """Lists all available pages in DokuWiki."""
-    directories = ["cf", "buildfac", "safety"]
 
     combined_results = None
 
-    for idx, dir in enumerate(directories):
+    for idx, dir in enumerate(directories_to_include):
         payload = {
             "jsonrpc": "2.0",
             "method": "core.listPages",

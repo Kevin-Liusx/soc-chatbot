@@ -7,7 +7,7 @@ get_page_content = dochub_api.get_page_content
 list_pages = dochub_api.list_pages
 login = dochub_api.login
 
-def initialize_documents(data_dir, USERNAME, PASSWORD):
+def initialize_documents(data_dir, directories_to_include, USERNAME, PASSWORD):
     """Initializes the documents directory.
     This function is called when the module is imported.
     It fetches the list of pages and saves it to a file.
@@ -16,7 +16,7 @@ def initialize_documents(data_dir, USERNAME, PASSWORD):
         print(f"❗️ One or more data directory not found. Creating directory")
         os.makedirs(data_dir, exist_ok=True)
         login(USERNAME, PASSWORD)
-        list_pages(data_dir)
+        list_pages(data_dir, directories_to_include)
         save_last_check_time(data_dir)
         with open(data_dir + "/page_list.json", "r") as file:
             page_list = json.load(file)

@@ -10,3 +10,6 @@ EMBEDDINGS = OpenAIEmbeddings(model="text-embedding-3-small")
 
 TECHSTAFF_DB_DIR = os.path.join(BASE_DIR, "db", "chroma_db_techstaff")
 GENERAL_DB_DIR = os.path.join(BASE_DIR, "db", "chroma_db_general")
+
+DIRECTORIES_GENERAL = ["cf", "buildfac", "safety"]
+DIRECTORIES_TECHSTAFF = ["cf", "buildfac", "safety", "tech"]
