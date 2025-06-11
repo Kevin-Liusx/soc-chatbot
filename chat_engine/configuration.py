@@ -1,15 +1,22 @@
 import os
 from dotenv import load_dotenv
+from documents import dochub_api
 from langchain_openai import OpenAIEmbeddings
 
 load_dotenv()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "db")
 
 EMBEDDINGS = OpenAIEmbeddings(model="text-embedding-3-small")
 
-TECHSTAFF_DB_DIR = os.path.join(BASE_DIR, "db", "chroma_db_techstaff")
-GENERAL_DB_DIR = os.path.join(BASE_DIR, "db", "chroma_db_general")
+documents_dir = dochub_api.current_dir
+GENERAL_DATA_DIR = os.path.join(documents_dir, "general_data")
+TECHSTAFF_DATA_DIR = os.path.join(documents_dir, "techstaff_data")
 
-DIRECTORIES_GENERAL = ["cf", "buildfac", "safety"]
-DIRECTORIES_TECHSTAFF = ["cf", "buildfac", "safety", "tech"]
+TECHSTAFF_DB_DIR = os.path.join(DB_BASE_DIR, "chroma_db_techstaff")
+GENERAL_DB_DIR = os.path.join(DB_BASE_DIR, "chroma_db_general")
+
+DIRECTORIES_TO_INCLUDE_GENERAL = ["cf", "buildfac", "safety"]
+DIRECTORIES_TO_INCLUDE_TECHSTAFF = ["cf", "buildfac", "safety", "tech"]
+DIRECTORIES_TO_EXCLUDE_GENERAL = []
+DIRECTORIES_TO_EXCLUDE_TECHSTAFF = []

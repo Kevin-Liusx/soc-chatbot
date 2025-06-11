@@ -14,6 +14,16 @@ sys.path.insert(0, parent_dir)
 # Now you can import from document
 from documents import dochub_sync
 from chat_engine import utils
+from chat_engine.configuration import (
+    TECHSTAFF_DB_DIR,
+    GENERAL_DB_DIR,
+    DIRECTORIES_TO_INCLUDE_GENERAL,
+    DIRECTORIES_TO_INCLUDE_TECHSTAFF,
+    GENERAL_DATA_DIR,
+    TECHSTAFF_DATA_DIR,
+    DIRECTORIES_TO_EXCLUDE_GENERAL,
+    DIRECTORIES_TO_EXCLUDE_TECHSTAFF,
+)
 
 
 def update_vector_store():
@@ -25,7 +35,7 @@ def update_vector_store():
     document_path = os.path.abspath("documents/data/dochub_md")
     persistent_directory = os.path.join(current_dir, "db", "chroma_db_with_metadata")
     # Fetch recent changes and update the local data
-    path_list = dochub_sync.update_recent_changes()
+    changed_content_files = dochub_sync.update_recent_changes()
     
     if os.path.exists(persistent_directory):
         if not os.path.exists(document_path):
@@ -49,7 +59,7 @@ def update_vector_store():
         # Load the text documents from the document path and store it with metadata
         documents = []
         source_ids_to_delete = set()
-        for file in path_list:
+        for file in changed_content_files:
             if file.endswith(".md"):
                 loader = TextLoader(file)
                 dochub_docs = loader.load()
@@ -60,7 +70,7 @@ def update_vector_store():
                     documents.append(doc)
                     source_ids_to_delete.add(source_id)
         
-        if not path_list:
+        if not changed_content_files:
             print("✅ No new or updated documents to process.")
             return
         
