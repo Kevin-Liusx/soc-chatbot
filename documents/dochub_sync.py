@@ -23,6 +23,8 @@ def update_recent_changes(dir_path):
     login(os.getenv("DOCHUB_USERNAME"), os.getenv("DOCHUB_PASSWORD"))
     if getRecentPageChanges():
         recent_changes_file = os.path.join(dir_path, "recent_changes.json")
+        if not os.path.exists(recent_changes_file):
+            raise FileNotFoundError(f"Recent changes file not found: {recent_changes_file}, please initialize the documents first.")
         with open(recent_changes_file, "r") as file:
             save_last_check_time(dir_path)
             recent_change_list = json.load(file)
@@ -34,6 +36,13 @@ def update_recent_changes(dir_path):
                 if not any(first_word == included for included in DIRECTORIES_TO_INCLUDE_TECHSTAFF):
                     continue
                 if any(excluded in page_id for excluded in DIRECTORIES_TO_EXCLUDE_TECHSTAFF):
+                    continue
+                content, output_file_md = get_page_content(dir_path, page_id)
+                file_content_list.append(output_file_md)
+            else:
+                if not any(first_word == included for included in DIRECTORIES_TO_INCLUDE_GENERAL):
+                    continue
+                if any(excluded in page_id for excluded in DIRECTORIES_TO_EXCLUDE_GENERAL):
                     continue
                 content, output_file_md = get_page_content(dir_path, page_id)
                 file_content_list.append(output_file_md)

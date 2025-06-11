@@ -17,12 +17,8 @@ from chat_engine import utils
 from chat_engine.configuration import (
     TECHSTAFF_DB_DIR,
     GENERAL_DB_DIR,
-    DIRECTORIES_TO_INCLUDE_GENERAL,
-    DIRECTORIES_TO_INCLUDE_TECHSTAFF,
     GENERAL_DATA_DIR,
     TECHSTAFF_DATA_DIR,
-    DIRECTORIES_TO_EXCLUDE_GENERAL,
-    DIRECTORIES_TO_EXCLUDE_TECHSTAFF,
 )
 
 def update_vector_store_helper(db, file_names):
@@ -62,14 +58,14 @@ def update_vector_store():
     """
     Update the vector store with new documents.
     """
-    # Fetch recent changes and update the local data
-    file_names_tech = dochub_sync.update_recent_changes(TECHSTAFF_DATA_DIR)
-    file_names_general = dochub_sync.update_recent_changes(GENERAL_DATA_DIR)
-    
     if os.path.exists(TECHSTAFF_DB_DIR) and os.path.exists(GENERAL_DB_DIR):
         if not os.path.exists(TECHSTAFF_DATA_DIR) or not os.path.exists(GENERAL_DATA_DIR):
             raise FileNotFoundError(f"One or more document path does not exist.")
-        
+
+        # Fetch recent changes and update the local data
+        file_names_tech = dochub_sync.update_recent_changes(TECHSTAFF_DATA_DIR)
+        file_names_general = dochub_sync.update_recent_changes(GENERAL_DATA_DIR)
+    
         print("Updating the two vector stores with latest changes...")
 
         # Create the OpenAI embeddings
@@ -95,7 +91,7 @@ def update_vector_store():
             print(f"🔄 Updating the General vector store with {len(file_names_general)} recent changes...")
             update_vector_store_helper(db_general, file_names_general)
     else:
-        print("❗ Persistent directory does not exist. Please initialize the vector store first.")
+        print("❗ One or more persistent directory does not exist. Please initialize the vector store first.")
 
     
 if __name__ == "__main__":
