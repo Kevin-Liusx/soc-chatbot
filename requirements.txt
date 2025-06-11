@@ -5,3 +5,5 @@ langchain_community
 langchain_openai
 pypandoc
 chromadb
+tiktoken
+bleach
