@@ -40,13 +40,13 @@ def regenerate_vector_store(data_dir=None, db_dir=None):
     if data_dir == GENERAL_DATA_DIR and db_dir == GENERAL_DB_DIR:
         documents.initialize_documents(
             data_dir, DIRECTORIES_TO_INCLUDE_GENERAL, DIRECTORIES_TO_EXCLUDE_GENERAL,
-            os.getenv("DOCHUB_USERNAME_GENERAL"), os.getenv("DOCHUB_PASSWORD_GENERAL")
+            os.getenv("DOCHUB_USERNAME"), os.getenv("DOCHUB_PASSWORD")
         )
         vector_store.initialize_vector_store(data_dir, db_dir)
     elif data_dir == TECHSTAFF_DATA_DIR and db_dir == TECHSTAFF_DB_DIR:
         documents.initialize_documents(
             data_dir, DIRECTORIES_TO_INCLUDE_TECHSTAFF, DIRECTORIES_TO_EXCLUDE_TECHSTAFF,
-            os.getenv("DOCHUB_USERNAME_STAFF"), os.getenv("DOCHUB_PASSWORD_STAFF")
+            os.getenv("DOCHUB_USERNAME"), os.getenv("DOCHUB_PASSWORD")
         )
         vector_store.initialize_vector_store(data_dir, db_dir)
     else:
