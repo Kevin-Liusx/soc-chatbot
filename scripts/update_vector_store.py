@@ -75,8 +75,8 @@ def update_vector_store():
 
         # Load the existing Chroma vector store
         print("🔄 Loading the two existing Chroma vector stores...")
-        db_techstaff = Chroma(persist_directory=TECHSTAFF_DATA_DIR, embedding_function=embeddings)
-        db_general = Chroma(persist_directory=GENERAL_DATA_DIR, embedding_function=embeddings)
+        db_techstaff = Chroma(persist_directory=TECHSTAFF_DB_DIR, embedding_function=embeddings)
+        db_general = Chroma(persist_directory=GENERAL_DB_DIR, embedding_function=embeddings)
         print("✅ Loaded existing Chroma vector stores.")
 
         if not file_names_tech and not file_names_general:

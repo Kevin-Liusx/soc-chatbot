@@ -175,7 +175,7 @@ def get_page_content(file_save_path, page_id):
 
 
 # JSON-RPC getRecentPageChanges request payload
-def getRecentPageChanges():
+def getRecentPageChanges(dir_path):
     """Fetches recent page changes from DokuWiki within the last RECENT_CHANGE_DAYS."""
     current_time = int(time.time())
     past_time = current_time - (RECENT_CHANGE_DAYS * 24 * 60 * 60)
@@ -196,7 +196,7 @@ def getRecentPageChanges():
         print("hit")
         changes = response.json().get("result", [])
         print(changes)
-        output_file = os.path.join(current_dir, "general_data", "recent_changes.json")
+        output_file = os.path.join(dir_path, "recent_changes.json")
         with open(output_file, "w", encoding="utf-8") as file:
             json.dump(changes, file, indent=4)
         return changes
