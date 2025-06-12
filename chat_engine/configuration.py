@@ -17,6 +17,6 @@ TECHSTAFF_DB_DIR = os.path.join(DB_BASE_DIR, "chroma_db_techstaff")
 GENERAL_DB_DIR = os.path.join(DB_BASE_DIR, "chroma_db_general")
 
 DIRECTORIES_TO_INCLUDE_GENERAL = ["cf", "buildfac", "safety"]
-DIRECTORIES_TO_INCLUDE_TECHSTAFF = ["cf", "buildfac", "safety", "tech"]
+DIRECTORIES_TO_INCLUDE_TECHSTAFF = ["cf", "buildfac", "safety", "tech", "infra"]
 DIRECTORIES_TO_EXCLUDE_GENERAL = []
 DIRECTORIES_TO_EXCLUDE_TECHSTAFF = []
