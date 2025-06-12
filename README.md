@@ -35,9 +35,7 @@ Edit the `.env` file to configure your environment variables:
 
 - **DOCHUB_PASSWORD**: The password for your DocHub account. Ensure this is kept secure and not shared publicly.
 
-- **OPENAI_API_KEY**: This is the API key used when running the development version of the site. It allows the chatbot to interact with OpenAI services in a development environment.
-
-- **OPENAI_API_KEY_PRODCUTION_SITE**: This key must be set when running the production version of the site. It enables access to OpenAI services for the live chatbot.
+- **OPENAI_API_KEY**: Your OpenAI API key, which allows your chatbot to interact with OpenAI services.
 
 - **CHATBOT_API_KEY**: SOC chatbot api key, make sure to add this key to the frontend as well. This key could be anything as long as the key in the frontend matches the key stored in the backend
 
