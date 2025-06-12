@@ -85,7 +85,7 @@ def list_pages(file_save_location, directories_to_include, depth=0):
         )
 
         if response.status_code == 200:
-            print(f"✅ Fetching pages from directory '{dir}'")
+            print(f"✅ Fetching page ids under the directory '{dir}'")
             data = response.json()
 
             if combined_results is None:
@@ -119,7 +119,7 @@ Where namespace could be several levels of directories.
 def get_page_content(file_save_path, page_id):
     """Retrieves the content of a specific wiki page."""
     if "sidebar" in page_id.lower():
-        print(f"🚫 Skipping sidebar page: {page_id}")
+        print(f"🚫 Skipping sidebar page id: {page_id}")
         return
     data_dir = os.path.join(file_save_path, "dochub_raw")
     data_dir_md = os.path.join(file_save_path, "dochub_md")
