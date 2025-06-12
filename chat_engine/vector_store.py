@@ -16,7 +16,7 @@ from langchain_openai import OpenAIEmbeddings
 def initialize_vector_store(document_path, persistent_directory, batch_size=1000):
     # Check if the Chroma vector store already exists
     if not os.path.exists(persistent_directory):
-        print("Persistent directory does not exist. Initializing vector store...")
+        print(f"Persistent directory {persistent_directory} does not exist. Initializing vector store...")
 
         # Ensure the document path exists
         if not os.path.exists(document_path):
@@ -49,11 +49,9 @@ def initialize_vector_store(document_path, persistent_directory, batch_size=1000
         print(f"Total batches: {len(batches)}")
 
         # Create the OpenAI embeddings
-        print("\n --- Initializing Chroma vector store ---")
         embeddings = OpenAIEmbeddings(
             model="text-embedding-3-small",
         )
-        print("\n ---Finished initializing OpenAI embeddings ---")
 
         # Create the Chroma vector store
         print("\n--- Creating Chroma vector store ---")
@@ -68,7 +66,7 @@ def initialize_vector_store(document_path, persistent_directory, batch_size=1000
                 
         print("\n--- Finished creating Chroma vector store ---")
     else:
-        print("✅ Vector store already exists. No need to initialize.")
+        print(f"✅ Vector store {persistent_directory} already exists. No need to initialize.")
 
 
 if __name__ == "__main__":

@@ -66,13 +66,11 @@ def login(USERNAME, PASSWORD):
 
 
 # JSON-RPC listPages request payload
-def list_pages(file_save_location, depth=0):
+def list_pages(file_save_location, directories_to_include, depth=0):
     """Lists all available pages in DokuWiki."""
-    directories = ["cf", "buildfac", "safety", "infra", "tech"]
-    
     combined_results = None
 
-    for idx, dir in enumerate(directories):
+    for idx, dir in enumerate(directories_to_include):
         payload = {
             "jsonrpc": "2.0",
             "method": "core.listPages",
@@ -180,7 +178,6 @@ def getRecentPageChanges():
     """Fetches recent page changes from DokuWiki within the last RECENT_CHANGE_DAYS."""
     current_time = int(time.time())
     past_time = current_time - (RECENT_CHANGE_DAYS * 24 * 60 * 60)
-    print(past_time)
     payload_getRecentPageChanges = {
         "jsonrpc": "2.0",
         "method": "core.getRecentPageChanges",
@@ -195,8 +192,10 @@ def getRecentPageChanges():
     )
     
     if response.status_code == 200:
+        print("hit")
         changes = response.json().get("result", [])
-        output_file = os.path.join(current_dir, "data", "recent_changes.json")
+        print(changes)
+        output_file = os.path.join(current_dir, "general_data", "recent_changes.json")
         with open(output_file, "w", encoding="utf-8") as file:
             json.dump(changes, file, indent=4)
         return changes
@@ -205,5 +204,5 @@ def getRecentPageChanges():
         return None
 
 if __name__ == "__main__":
-    login()
+    login(os.getenv("DOCHUB_USERNAME"), os.getenv("DOCHUB_PASSWORD"))
     list_pages()
