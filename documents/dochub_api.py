@@ -193,9 +193,7 @@ def getRecentPageChanges(dir_path):
     )
     
     if response.status_code == 200:
-        print("hit")
         changes = response.json().get("result", [])
-        print(changes)
         output_file = os.path.join(dir_path, "recent_changes.json")
         with open(output_file, "w", encoding="utf-8") as file:
             json.dump(changes, file, indent=4)
