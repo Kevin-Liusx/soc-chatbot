@@ -1,5 +1,6 @@
 import os
 
+from .configuration import EMBEDDINGS
 from .utils import extract_metadata, batch_documents_by_tokens
 
 from langchain.text_splitter import CharacterTextSplitter
@@ -49,9 +50,7 @@ def initialize_vector_store(document_path, persistent_directory, batch_size=1000
         print(f"Total batches: {len(batches)}")
 
         # Create the OpenAI embeddings
-        embeddings = OpenAIEmbeddings(
-            model="text-embedding-3-small",
-        )
+        embeddings = EMBEDDINGS
 
         # Create the Chroma vector store
         print("\n--- Creating Chroma vector store ---")

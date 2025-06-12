@@ -19,6 +19,7 @@ from chat_engine.configuration import (
     GENERAL_DB_DIR,
     GENERAL_DATA_DIR,
     TECHSTAFF_DATA_DIR,
+    EMBEDDINGS,
 )
 
 def update_vector_store_helper(db, file_names):
@@ -77,9 +78,7 @@ def update_vector_store():
         print("Updating the two vector stores with latest changes...")
 
         # Create the OpenAI embeddings
-        embeddings = OpenAIEmbeddings(
-            model="text-embedding-3-small",
-        )
+        embeddings = EMBEDDINGS
 
         # Load the existing Chroma vector store
         print("🔄 Loading the two existing Chroma vector stores...")

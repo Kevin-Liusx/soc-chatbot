@@ -1,13 +1,15 @@
 import os
 from dotenv import load_dotenv
 from documents import dochub_api
-from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 
 load_dotenv()
 
 DB_BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "db")
 
-EMBEDDINGS = OpenAIEmbeddings(model="text-embedding-3-small")
+llm = ChatOpenAI(model="gpt-4o", api_key=os.getenv("OPENAI_API_KEY_PRODCUTION_SITE"))
+EMBEDDINGS = OpenAIEmbeddings(model="text-embedding-3-small", 
+                              api_key=os.getenv("OPENAI_API_KEY_PRODCUTION_SITE"))
 
 documents_dir = dochub_api.current_dir
 GENERAL_DATA_DIR = os.path.join(documents_dir, "general_data")
