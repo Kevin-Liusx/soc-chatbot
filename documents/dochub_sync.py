@@ -21,7 +21,7 @@ def update_recent_changes(dir_path):
     # last_check_time = get_last_check_time()
     file_content_list = []
     login(os.getenv("DOCHUB_USERNAME"), os.getenv("DOCHUB_PASSWORD"))
-    if getRecentPageChanges():
+    if getRecentPageChanges(dir_path=dir_path):
         recent_changes_file = os.path.join(dir_path, "recent_changes.json")
         if not os.path.exists(recent_changes_file):
             raise FileNotFoundError(f"Recent changes file not found: {recent_changes_file}, please initialize the documents first.")
