@@ -7,9 +7,8 @@ load_dotenv()
 
 DB_BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "db")
 
-llm = ChatOpenAI(model="gpt-4o", api_key=os.getenv("OPENAI_API_KEY_PRODCUTION_SITE"))
-EMBEDDINGS = OpenAIEmbeddings(model="text-embedding-3-small", 
-                              api_key=os.getenv("OPENAI_API_KEY_PRODCUTION_SITE"))
+llm = ChatOpenAI(model="gpt-4o")
+EMBEDDINGS = OpenAIEmbeddings(model="text-embedding-3-small")
 
 documents_dir = dochub_api.current_dir
 GENERAL_DATA_DIR = os.path.join(documents_dir, "general_data")
