@@ -21,7 +21,7 @@ def initialize_documents(data_dir, directories_to_include, directories_to_exclud
         with open(data_dir + "/page_list.json", "r") as file:
             page_list = json.load(file)
             
-        print(f"✅ Starting to fetch content for all the pages")
+        print(f"✅ Starting to fetch content for all page ids")
         for page in page_list["result"]:
             page_id = page["id"]
             if any(excluded in page_id for excluded in directories_to_exclude):
