@@ -48,9 +48,17 @@ def update_vector_store_helper(db, file_names):
         print("\n--- Document Chunks Information ---")
         print(f"Number of document chunks: {len(documents)}")
 
+        # Token-based batching
+        print("\n--- Batching documents by token count ---")
+        batches = utils.batch_documents_by_tokens(documents)
+        print(f"Total batches: {len(batches)}")
+
         print(f"➕ Adding {len(documents)} new document chunks to Chroma...")
-        db.add_documents(documents)
-        db.persist()
+
+        for i, batch in enumerate(batches):
+            db.add_documents(batch)
+            print(f"Batch {i + 1}: Added {len(batch)} chunks.")
+
         print("✅ Chroma vector store updated with changed files and deduplication.")
 
 

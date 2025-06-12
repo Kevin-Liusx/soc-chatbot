@@ -56,5 +56,5 @@ def regenerate_vector_store(data_dir=None, db_dir=None):
 
 if __name__ == "__main__":
     regenerate_vector_store(GENERAL_DATA_DIR, GENERAL_DB_DIR)
-    # regenerate_vector_store(TECHSTAFF_DATA_DIR, TECHSTAFF_DB_DIR)
+    regenerate_vector_store(TECHSTAFF_DATA_DIR, TECHSTAFF_DB_DIR)
     # regenerate_vector_store()
