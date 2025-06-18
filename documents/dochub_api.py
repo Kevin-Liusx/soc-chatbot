@@ -146,7 +146,7 @@ def get_page_content(file_save_path, page_id):
 
     payload = {
         "jsonrpc": "2.0",
-        "method": "wiki.getPage",
+        "method": "core.getPage",
         "params": [page_id, 0],  # 0 for the latest revision
         "id": 1
     }
