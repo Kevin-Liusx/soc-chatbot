@@ -5,7 +5,7 @@ import re
 from datetime import datetime
 
 # Allowed characters: alphanumeric + common punctuation
-ALLOWED_PATTERN = re.compile(r'^[a-zA-Z0-9\s.,!?\'"@#\-_/\[\]{}()&%$]+$')
+ALLOWED_PATTERN = re.compile(r'^[a-zA-Z0-9\s.,!?\'"@#\-_/\[\]{}()&%$:]+$')
 
 # Known bad patterns (SQLi, shell injection, traversal, etc.)
 BLACKLISTED_PATTERNS = [
